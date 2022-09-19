@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"project/e-commerce/config"
+	"gp3/config"
 	"time"
 
 	"github.com/golang-jwt/jwt"

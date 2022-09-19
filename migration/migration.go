@@ -1,7 +1,7 @@
 package migration
 
 import (
-	// userModel "project/e-commerce/features/user/data"
+	// userModel "gp3/features/user/data"
 	"gorm.io/gorm"
 )
 

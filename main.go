@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"project/e-commerce/config"
-	"project/e-commerce/factory"
-	"project/e-commerce/migration"
-	"project/e-commerce/utils/database/mysql"
+	"gp3/config"
+	"gp3/factory"
+	"gp3/migration"
+	"gp3/utils/database/mysql"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"fmt"
+	"gp3/config"
 	"log"
-	"project/e-commerce/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
