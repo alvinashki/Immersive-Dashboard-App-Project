@@ -1,0 +1,3 @@
+# docker run -p 8080:8000 -e DB_USERNAME="root" -e DB_PASSWORD="" -e DB_HOST="192.168.100.54" -e DB_PORT="3306" -e DB_NAME="dummy" -e SERVER_PORT="8000" --name gp3container gp3image:latest
+
+# docker run -p 8080:8000 -e DB_USERNAME="admin" -e DB_PASSWORD="qweasdzxc" -e DB_HOST="db-gp3.crmvplgmbxrx.us-west-1.rds.amazonaws.com" -e DB_PORT="3306" -e DB_NAME="db_gp3" -e SERVER_PORT="8000" --name gp3container alvinashki/gp3image:latest
