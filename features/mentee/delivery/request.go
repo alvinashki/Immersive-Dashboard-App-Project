@@ -15,8 +15,8 @@ type MenteeRequest struct {
 	Category     string `json:"category" form:"category"`
 	Name_Ed      string `json:"name_ed" form:"name_ed"`
 	Phone_Ed     string `json:"phone_ed" form:"phone_ed"`
-	Status_Ed    string `json:"stat_ed" form:"phone_ed"`
-	Major        string `json:"status_ed" form:"status_ed"`
+	Status_Ed    string `json:"status_ed" form:"status_ed"`
+	Major        string `json:"major" form:"major"`
 	Graduate     string `json:"graduate" form:"graduate"`
 }
 
