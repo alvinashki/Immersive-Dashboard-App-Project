@@ -21,6 +21,7 @@ func New(e *echo.Echo, usecase login.UsecaseInterface) {
 
 }
 
+// ini komen
 func (delivery *Delivery) Auth(c echo.Context) error {
 
 	var req Request
