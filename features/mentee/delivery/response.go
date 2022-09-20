@@ -8,7 +8,7 @@ type MenteeResponse struct {
 	Gender       string `json:"gender" form:"gender"`
 	Address      string `json:"address" form:"address"`
 	Home_Address string `json:"home_address" form:"home_address"`
-	Class_Id     uint   `json:"class_id" form:"class_id"`
+	Class        string `json:"class" form:"class"`
 	Email        string `json:"email" form:"email"`
 	Telegram     string `json:"telegram" form:"telegram"`
 	Phone        string `json:"phone" form:"phone"`
@@ -21,14 +21,14 @@ type MenteeResponse struct {
 	Graduate     string `json:"graduate" form:"graduate"`
 }
 
-func FromCore(dataCore mentee.Core) MenteeResponse {
+func FromCore(dataCore mentee.ResponseCore) MenteeResponse {
 	return MenteeResponse{
 		ID:           dataCore.ID,
 		Name:         dataCore.Name,
 		Gender:       dataCore.Gender,
 		Address:      dataCore.Address,
 		Home_Address: dataCore.Home_Address,
-		Class_Id:     dataCore.Class_Id,
+		Class:        dataCore.Class,
 		Email:        dataCore.Email,
 		Telegram:     dataCore.Telegram,
 		Phone:        dataCore.Phone,
@@ -43,7 +43,7 @@ func FromCore(dataCore mentee.Core) MenteeResponse {
 
 }
 
-func FromCoreList(dataCore []mentee.Core) []MenteeResponse {
+func FromCoreList(dataCore []mentee.ResponseCore) []MenteeResponse {
 	var dataResponse []MenteeResponse
 	for _, v := range dataCore {
 		dataResponse = append(dataResponse, FromCore(v))
