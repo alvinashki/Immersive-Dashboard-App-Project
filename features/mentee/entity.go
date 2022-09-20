@@ -20,7 +20,9 @@ type Core struct {
 }
 
 type UsecaseInterface interface {
+	InsertMentee(data Core) (row int, err error)
 }
 
 type DataInterface interface {
+	CreateMentee(data Core) (row int, err error)
 }
