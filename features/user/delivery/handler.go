@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"fmt"
 	"gp3/features/user"
 	"gp3/utils/helper"
 	"net/http"
@@ -26,6 +27,7 @@ func (deliv *Delivery) PostUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("error binding data"))
 	}
 
+	fmt.Println("error =", dataRequest)
 	row, err := deliv.userUsecase.CreateData(toCore(dataRequest))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("error insert data"))

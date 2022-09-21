@@ -14,7 +14,7 @@ type User struct {
 	Role       string
 	Status     string
 	DivisionId int
-	Division   user.DivisionCore
+	Division   Division
 }
 
 type Division struct {
@@ -30,7 +30,7 @@ func fromCore(dataCore user.Core) User {
 		Password:   dataCore.Password,
 		Role:       dataCore.Role,
 		Status:     dataCore.Status,
-		DivisionId: dataCore.Division.ID,
+		DivisionId: dataCore.DivisionId,
 	}
 }
 
