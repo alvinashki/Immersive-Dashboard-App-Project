@@ -62,5 +62,5 @@ func (delivery *MenteeDelivery) GetMenteeById(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
 	}
 
-	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data mentee success", FromCore(dataMentee)))
+	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data mentees success", FromCore(dataMentee)))
 }
