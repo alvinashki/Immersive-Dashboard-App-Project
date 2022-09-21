@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"gp3/features/mentee"
 
 	"gorm.io/gorm"
@@ -51,5 +52,88 @@ func (repo *menteeData) FindMenteeById(mentee_id int) (mentee.ResponseCore, erro
 	}
 
 	return dataMentee.toCore(), nil
+
+}
+
+func (repo *menteeData) UpdateMentee(dataMentee mentee.Core) (int, error) {
+	var newDataMentee Mentee
+
+	tx_OldData := repo.db.First(&newDataMentee, dataMentee.ID)
+
+	if tx_OldData.Error != nil {
+		return -1, tx_OldData.Error
+	}
+
+	if dataMentee.Name != "" {
+		newDataMentee.Name = dataMentee.Name
+	}
+
+	if dataMentee.Gender != "" {
+		newDataMentee.Gender = dataMentee.Gender
+	}
+
+	if dataMentee.Address != "" {
+		newDataMentee.Address = dataMentee.Address
+	}
+
+	if dataMentee.Home_Address != "" {
+		newDataMentee.Home_Address = dataMentee.Home_Address
+	}
+
+	if dataMentee.Class_Id != 0 {
+		newDataMentee.Class_Id = dataMentee.Class_Id
+	}
+
+	if dataMentee.Email != "" {
+		newDataMentee.Email = dataMentee.Email
+	}
+
+	if dataMentee.Telegram != "" {
+		newDataMentee.Telegram = dataMentee.Telegram
+	}
+
+	if dataMentee.Phone != "" {
+		newDataMentee.Phone = dataMentee.Phone
+	}
+
+	if dataMentee.Status != "" {
+		newDataMentee.Status = dataMentee.Status
+	}
+
+	if dataMentee.Category != "" {
+		newDataMentee.Category = dataMentee.Category
+	}
+
+	if dataMentee.Name_Ed != "" {
+		newDataMentee.Name_Ed = dataMentee.Name_Ed
+	}
+
+	if dataMentee.Phone_Ed != "" {
+		newDataMentee.Phone_Ed = dataMentee.Phone_Ed
+	}
+
+	if dataMentee.Status_Ed != "" {
+		newDataMentee.Status_Ed = dataMentee.Status_Ed
+	}
+
+	if dataMentee.Major != "" {
+		newDataMentee.Major = dataMentee.Major
+	}
+
+	if dataMentee.Graduate != "" {
+		newDataMentee.Graduate = dataMentee.Graduate
+	}
+
+	tx_newData := repo.db.Save(&newDataMentee)
+
+	if tx_newData.Error != nil {
+		return -1, tx_newData.Error
+	}
+
+	if tx_newData.RowsAffected != 1 {
+		return 0, errors.New("zero row affected, fail update")
+	}
+
+	return int(tx_newData.RowsAffected), nil
 
 }
