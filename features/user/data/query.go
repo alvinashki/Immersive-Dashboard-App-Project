@@ -1,7 +1,7 @@
 package data
 
 import (
-	"fmt"
+	"errors"
 	"gp3/features/user"
 
 	"gorm.io/gorm"
@@ -37,7 +37,17 @@ func (repo *userData) SelectAlUser() ([]user.Core, error) {
 	}
 
 	userList := toCoreList(allUserData)
-	fmt.Println(userList)
-	fmt.Println(allUserData)
+
 	return userList, nil
+}
+
+func (repo *userData) UpdateData(data user.Core, id int) (row int, err error) {
+	tx := repo.db.Model(&User{}).Where("id = ?", id).Updates(fromCore(data))
+	if tx.Error != nil {
+		return -1, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return 0, errors.New("failed to update data")
+	}
+	return int(tx.RowsAffected), nil
 }
