@@ -51,3 +51,25 @@ func (repo *userData) UpdateData(data user.Core, id int) (row int, err error) {
 	}
 	return int(tx.RowsAffected), nil
 }
+
+func (repo *userData) DeleteData(id int) (row int, err error) {
+	tx := repo.db.Delete(&User{}, id)
+	if tx.Error != nil {
+		return -1, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return 0, errors.New("failed delete akun")
+	}
+	return int(tx.RowsAffected), nil
+}
+
+func (repo *userData) SelectUserId(id int) (user.Core, error) {
+	var userData User
+	userData.ID = uint(id)
+	tx := repo.db.First(&userData)
+
+	if tx.Error != nil {
+		return user.Core{}, tx.Error
+	}
+	return userData.toCore(), nil
+}

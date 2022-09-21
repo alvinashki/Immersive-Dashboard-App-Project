@@ -18,12 +18,19 @@ func New(e *echo.Echo, usecase user.UsecaseInterface) {
 	handler := &Delivery{
 		userUsecase: usecase,
 	}
-	e.POST("/adduser", handler.PostUser)
-	e.GET("/getalldata", handler.GetAllUser)
-	e.PUT("/updateprofile/:id", handler.PutUser, middlewares.JWTMiddleware())
+	e.POST("/users", handler.PostUser, middlewares.JWTMiddleware())
+	e.GET("/users", handler.GetAllUser, middlewares.JWTMiddleware())
+	e.PUT("/users/:id", handler.PutUser, middlewares.JWTMiddleware())
+	e.DELETE("/users/:id", handler.DeleteAkun, middlewares.JWTMiddleware())
+	e.GET("/users/:id", handler.SelectUserId, middlewares.JWTMiddleware())
 }
 
 func (deliv *Delivery) PostUser(c echo.Context) error {
+	// token := middlewares.ExtractToken(c)
+	// if token == 0 {
+	// 	return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you should be login first !"))
+	// }
+
 	var dataRequest UserRequest
 	errBind := c.Bind(&dataRequest)
 	if errBind != nil {
@@ -75,4 +82,40 @@ func (deliv *Delivery) PutUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to update data"))
 	}
 	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("success update data"))
+}
+
+func (deliv *Delivery) DeleteAkun(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+	idToken := middlewares.ExtractToken(c)
+
+	if idToken != idConv {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))
+	}
+
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("param must be a number"))
+	}
+
+	row, err := deliv.userUsecase.DeleteAkun(idConv)
+	if err != nil || row == 0 {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to delete account"))
+	}
+	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("succes delete account"))
+}
+
+func (deliv *Delivery) SelectUserId(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("param must be a number"))
+	}
+
+	result, err := deliv.userUsecase.GetUserId(idConv)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to get data"))
+	}
+	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("succes get data", fromCore(result)))
+
 }
