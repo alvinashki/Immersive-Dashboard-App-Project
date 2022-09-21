@@ -25,3 +25,9 @@ func (usecase *menteeUsecase) InsertMentee(dataMentee mentee.Core) (int, error) 
 	return rowCreate, errCreate
 
 }
+
+func (usecase *menteeUsecase) SelectMentee() ([]mentee.ResponseCore, error) {
+	dataMentee, err := usecase.menteeData.FindMentee()
+	return dataMentee, err
+
+}
