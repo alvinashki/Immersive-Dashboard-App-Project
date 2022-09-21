@@ -40,3 +40,16 @@ func (repo *menteeData) FindMentee() ([]mentee.ResponseCore, error) {
 	return toCoreList(dataMentee), nil
 
 }
+
+func (repo *menteeData) FindMenteeById(mentee_id int) (mentee.ResponseCore, error) {
+	var dataMentee Mentee
+
+	tx := repo.db.Preload("Class").First(&dataMentee, mentee_id)
+
+	if tx.Error != nil {
+		return mentee.ResponseCore{}, tx.Error
+	}
+
+	return dataMentee.toCore(), nil
+
+}
