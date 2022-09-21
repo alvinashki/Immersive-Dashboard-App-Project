@@ -36,3 +36,8 @@ func (usecase *menteeUsecase) SelectMenteeById(mentee_id int) (mentee.ResponseCo
 	dataMentee, err := usecase.menteeData.FindMenteeById(mentee_id)
 	return dataMentee, err
 }
+
+func (usecase *menteeUsecase) UpdateMenteeData(dataMentaa mentee.Core) (int, error) {
+	rowUpdate, errUpdate := usecase.menteeData.UpdateMentee(dataMentaa)
+	return rowUpdate, errUpdate
+}
