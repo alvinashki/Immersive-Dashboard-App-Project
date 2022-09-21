@@ -18,8 +18,10 @@ type DivisionCore struct {
 
 type UsecaseInterface interface {
 	CreateData(data Core) (row int, err error)
+	GetAllUser() (data []Core, err error)
 }
 
 type DataInterface interface {
 	InsertData(data Core) (row int, err error)
+	SelectAlUser() (data []Core, err error)
 }

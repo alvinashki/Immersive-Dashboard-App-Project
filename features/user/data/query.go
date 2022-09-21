@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"gp3/features/user"
 
 	"gorm.io/gorm"
@@ -25,4 +26,18 @@ func (repo *userData) InsertData(newUser user.Core) (int, error) {
 	}
 
 	return int(tx.RowsAffected), nil
+}
+
+func (repo *userData) SelectAlUser() ([]user.Core, error) {
+	var allUserData []User
+	tx := repo.db.Find(&allUserData)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	userList := toCoreList(allUserData)
+	fmt.Println(userList)
+	fmt.Println(allUserData)
+	return userList, nil
 }

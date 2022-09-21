@@ -23,3 +23,8 @@ func (usecase *userUsecase) CreateData(newUser user.Core) (int, error) {
 	row, err := usecase.userData.InsertData(newUser)
 	return row, err
 }
+
+func (usecase *userUsecase) GetAllUser() ([]user.Core, error) {
+	results, err := usecase.userData.SelectAlUser()
+	return results, err
+}

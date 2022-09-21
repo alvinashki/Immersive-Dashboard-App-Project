@@ -45,3 +45,15 @@ func (dataUser *User) toCore() user.Core {
 		DivisionId: dataUser.DivisionId,
 	}
 }
+
+func toCoreList(dataUser []User) []user.Core {
+	var dataCore []user.Core
+
+	for key := range dataUser {
+		dataCore = append(dataCore, dataUser[key].toCore())
+
+	}
+
+	return dataCore
+
+}
