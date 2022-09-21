@@ -1,6 +1,7 @@
 package data
 
 import (
+	// modelCLass "gp3/features/class/data"
 	"gp3/features/mentee"
 
 	"gorm.io/gorm"
@@ -23,6 +24,13 @@ type Mentee struct {
 	Status_Ed    string
 	Major        string
 	Graduate     string
+	Class        Class
+}
+
+type Class struct {
+	gorm.Model
+	Class   string
+	Mentees []Mentee
 }
 
 func fromCore(dataCore mentee.Core) Mentee {
@@ -43,17 +51,16 @@ func fromCore(dataCore mentee.Core) Mentee {
 		Major:        dataCore.Major,
 		Graduate:     dataCore.Graduate,
 	}
-
 }
 
-func (dataMentee *Mentee) toCore() mentee.Core {
-	return mentee.Core{
+func (dataMentee *Mentee) toCore() mentee.ResponseCore {
+	return mentee.ResponseCore{
 		ID:           dataMentee.ID,
 		Name:         dataMentee.Name,
 		Gender:       dataMentee.Gender,
 		Address:      dataMentee.Address,
 		Home_Address: dataMentee.Home_Address,
-		Class_Id:     dataMentee.Class_Id,
+		Class:        dataMentee.Class.Class,
 		Email:        dataMentee.Email,
 		Telegram:     dataMentee.Telegram,
 		Phone:        dataMentee.Phone,
@@ -67,8 +74,8 @@ func (dataMentee *Mentee) toCore() mentee.Core {
 	}
 }
 
-func toCoreList(dataMentee []Mentee) []mentee.Core {
-	var dataCore []mentee.Core
+func toCoreList(dataMentee []Mentee) []mentee.ResponseCore {
+	var dataCore []mentee.ResponseCore
 
 	for key := range dataMentee {
 		dataCore = append(dataCore, dataMentee[key].toCore())

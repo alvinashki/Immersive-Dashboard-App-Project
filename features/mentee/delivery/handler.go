@@ -18,6 +18,7 @@ func New(e *echo.Echo, usecase mentee.UsecaseInterface) {
 	}
 
 	e.POST("/mentees", handler.PostNewMentee)
+	e.GET("/mentees", handler.GetAllMentee)
 
 }
 
@@ -38,4 +39,14 @@ func (delivery *MenteeDelivery) PostNewMentee(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("success add new mentee"))
+}
+
+func (delivery *MenteeDelivery) GetAllMentee(c echo.Context) error {
+	dataMentee, err := delivery.menteeUsecase.SelectMentee()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data mentees success", FromCoreList(dataMentee)))
 }
