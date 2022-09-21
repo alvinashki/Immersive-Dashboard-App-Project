@@ -11,6 +11,10 @@ import (
 	menteeData "gp3/features/mentee/data"
 	menteeDelivery "gp3/features/mentee/delivery"
 	menteeUsecase "gp3/features/mentee/usecase"
+
+	userData "gp3/features/user/data"
+	userDelivery "gp3/features/user/delivery"
+	userUsecase "gp3/features/user/usecase"
 )
 
 func InitFactory(e *echo.Echo, db *gorm.DB) {
@@ -21,4 +25,8 @@ func InitFactory(e *echo.Echo, db *gorm.DB) {
 	menteeDataFactory := menteeData.New(db)
 	menteeUsecaseFactory := menteeUsecase.New(menteeDataFactory)
 	menteeDelivery.New(e, menteeUsecaseFactory)
+
+	userDataFactory := userData.New(db)
+	userUsecaseFactory := userUsecase.New(userDataFactory)
+	userDelivery.New(e, userUsecaseFactory)
 }

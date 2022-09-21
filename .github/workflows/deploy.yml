@@ -22,6 +22,8 @@ jobs:
             git pull origin main
             docker stop gp3container
             docker rm gp3container
-            docker run -d -p 8080:8000 -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e DB_HOST=${{ secrets.DB_HOST }} -e DB_PORT=${{ secrets.DB_PORT }} -e DB_NAME=${{ secrets.DB_NAME }} -e SERVER_PORT=${{ secrets.SERVER_PORT }} --name gp3container alvinashki/gp3image:latest
+            docker rmi alvinashki/gp3image:latest
+            docker build -t alvinashki/gp3image:latest .
+            docker run -d -p 80:8000 -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e DB_HOST=${{ secrets.DB_HOST }} -e DB_PORT=${{ secrets.DB_PORT }} -e DB_NAME=${{ secrets.DB_NAME }} -e SERVER_PORT=${{ secrets.SERVER_PORT }} --name gp3container alvinashki/gp3image:latest
              
        
