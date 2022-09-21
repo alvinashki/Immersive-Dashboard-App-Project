@@ -17,8 +17,8 @@ func New(data mentee.DataInterface) mentee.UsecaseInterface {
 
 func (usecase *menteeUsecase) InsertMentee(dataMentee mentee.Core) (int, error) {
 
-	if dataMentee.Name == "" {
-		return -1, errors.New("mentee name must be filled")
+	if dataMentee.Name == "" || dataMentee.Class_Id == 0 {
+		return -1, errors.New("mentee name or class must be filled")
 	}
 
 	rowCreate, errCreate := usecase.menteeData.CreateMentee(dataMentee)
@@ -30,4 +30,9 @@ func (usecase *menteeUsecase) SelectMentee() ([]mentee.ResponseCore, error) {
 	dataMentee, err := usecase.menteeData.FindMentee()
 	return dataMentee, err
 
+}
+
+func (usecase *menteeUsecase) SelectMenteeById(mentee_id int) (mentee.ResponseCore, error) {
+	dataMentee, err := usecase.menteeData.FindMenteeById(mentee_id)
+	return dataMentee, err
 }

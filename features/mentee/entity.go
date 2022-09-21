@@ -40,10 +40,12 @@ type ResponseCore struct {
 
 type UsecaseInterface interface {
 	SelectMentee() (data []ResponseCore, err error)
+	SelectMenteeById(mentee_id int) (data ResponseCore, err error)
 	InsertMentee(data Core) (row int, err error)
 }
 
 type DataInterface interface {
 	FindMentee() (data []ResponseCore, err error)
+	FindMenteeById(mentee_id int) (data ResponseCore, err error)
 	CreateMentee(data Core) (row int, err error)
 }
