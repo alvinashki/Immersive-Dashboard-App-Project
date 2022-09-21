@@ -34,3 +34,16 @@ func (usecase *userUsecase) PutUser(newUser user.Core, id int) (int, error) {
 	row, err := usecase.userData.UpdateData(newUser, id)
 	return row, err
 }
+
+func (usecase *userUsecase) DeleteAkun(id int) (int, error) {
+	row, err := usecase.userData.DeleteData(id)
+	return row, err
+}
+
+func (usecase *userUsecase) GetUserId(id int) (user.Core, error) {
+	result, err := usecase.userData.SelectUserId(id)
+	if err != nil {
+		return user.Core{}, err
+	}
+	return result, nil
+}
