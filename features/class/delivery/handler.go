@@ -19,6 +19,7 @@ func New(e *echo.Echo, usecase class.UsecaseInterface) {
 
 	e.POST("/class", handler.PostNewClass)
 	e.GET("/class", handler.GetAllClass)
+	e.PUT("/class/:id", handler.UpdateClassData)
 
 }
 
@@ -47,4 +48,25 @@ func (delivery *CLassDelivery) GetAllClass(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data class success", FromCoreList(dataClass)))
+}
+
+func (delivery *CLassDelivery) UpdateClassData(c echo.Context) error {
+	class_id := helper.ParamInt(c)
+
+	var classRequestData ClassRequest
+	errBind := c.Bind(&classRequestData)
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("fail bind data"))
+	}
+
+	requestClassCore := ToCore(classRequestData)
+	requestClassCore.ID = uint(class_id)
+
+	row, err := delivery.classUsecase.UpdateClassData(requestClassCore)
+
+	if err != nil || row != 1 {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("update success"))
 }
