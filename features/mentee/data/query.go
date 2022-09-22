@@ -137,3 +137,15 @@ func (repo *menteeData) UpdateMentee(dataMentee mentee.Core) (int, error) {
 	return int(tx_newData.RowsAffected), nil
 
 }
+
+func (repo *menteeData) DeleteMentee(mentee_id int) (int, error) {
+	var dataMentee Mentee
+	tx := repo.db.Delete(&dataMentee, mentee_id)
+
+	if tx.Error != nil {
+		return -1, tx.Error
+	}
+
+	return int(tx.RowsAffected), nil
+
+}

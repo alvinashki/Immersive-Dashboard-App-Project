@@ -43,6 +43,7 @@ type UsecaseInterface interface {
 	SelectMenteeById(mentee_id int) (data ResponseCore, err error)
 	InsertMentee(data Core) (row int, err error)
 	UpdateMenteeData(data Core) (row int, err error)
+	DeleteMenteeData(mentee_id int) (row int, err error)
 }
 
 type DataInterface interface {
@@ -50,4 +51,5 @@ type DataInterface interface {
 	FindMenteeById(mentee_id int) (data ResponseCore, err error)
 	CreateMentee(data Core) (row int, err error)
 	UpdateMentee(data Core) (row int, err error)
+	DeleteMentee(mentee_id int) (row int, err error)
 }
