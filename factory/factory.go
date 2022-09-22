@@ -19,6 +19,10 @@ import (
 	classData "gp3/features/class/data"
 	classDelivery "gp3/features/class/delivery"
 	classUsecase "gp3/features/class/usecase"
+
+	logsData "gp3/features/logs/data"
+	logsDelivery "gp3/features/logs/delivery"
+	logsUsecase "gp3/features/logs/usecase"
 )
 
 func InitFactory(e *echo.Echo, db *gorm.DB) {
@@ -37,4 +41,8 @@ func InitFactory(e *echo.Echo, db *gorm.DB) {
 	classDataFactory := classData.New(db)
 	classUsecaseFactory := classUsecase.New(classDataFactory)
 	classDelivery.New(e, classUsecaseFactory)
+
+	logsDataFactory := logsData.New(db)
+	logsUsecaseFactory := logsUsecase.New(logsDataFactory)
+	logsDelivery.New(e, logsUsecaseFactory)
 }
