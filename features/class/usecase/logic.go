@@ -30,3 +30,15 @@ func (usecase *classUsecase) SelectClass() ([]class.Core, error) {
 	dataClass, err := usecase.classData.FindClass()
 	return dataClass, err
 }
+
+func (usecase *classUsecase) UpdateClassData(dataClass class.Core) (int, error) {
+	rowUpdate, errUpdate := usecase.classData.UpdateClass(dataClass)
+	return rowUpdate, errUpdate
+
+}
+
+func (usecase *classUsecase) DeleteClassData(class_id int) (int, error) {
+	rowDelete, errDelete := usecase.classData.DeleteClass(class_id)
+	return rowDelete, errDelete
+
+}
