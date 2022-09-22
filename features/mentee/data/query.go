@@ -29,13 +29,57 @@ func (repo *menteeData) CreateMentee(dataMentee mentee.Core) (int, error) {
 	return int(tx.RowsAffected), nil
 }
 
-func (repo *menteeData) FindMentee() ([]mentee.ResponseCore, error) {
+func (repo *menteeData) FindMentee(class_id int, category, status string) ([]mentee.ResponseCore, error) {
 	var dataMentee []Mentee
 
-	tx := repo.db.Preload("Class").Find(&dataMentee)
+	if class_id != 0 && category != "" && status != "" {
+		tx := repo.db.Where("class_id = ? AND category = ? AND status = ?", class_id, category, status).Preload("Class").Find(&dataMentee)
 
-	if tx.Error != nil {
-		return []mentee.ResponseCore{}, tx.Error
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if class_id != 0 && category != "" {
+		tx := repo.db.Where("class_id = ? AND category = ?", class_id, category).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if class_id != 0 && status != "" {
+		tx := repo.db.Where("class_id = ? AND status = ?", class_id, status).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if category != "" && status != "" {
+		tx := repo.db.Where("category = ? AND status = ?", category, status).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if class_id != 0 {
+		tx := repo.db.Where("class_id = ?", category).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if category != "" {
+		tx := repo.db.Where("category = ?", category).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else if status != "" {
+		tx := repo.db.Where("status = ?", status).Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
+	} else {
+		tx := repo.db.Preload("Class").Find(&dataMentee)
+
+		if tx.Error != nil {
+			return []mentee.ResponseCore{}, tx.Error
+		}
 	}
 
 	return toCoreList(dataMentee), nil

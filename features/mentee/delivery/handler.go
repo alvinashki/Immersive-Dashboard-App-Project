@@ -5,6 +5,7 @@ import (
 	"gp3/middlewares"
 	"gp3/utils/helper"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -46,7 +47,15 @@ func (delivery *MenteeDelivery) PostNewMentee(c echo.Context) error {
 }
 
 func (delivery *MenteeDelivery) GetAllMentee(c echo.Context) error {
-	dataMentee, err := delivery.menteeUsecase.SelectMentee()
+	category := c.QueryParam("category")
+	status := c.QueryParam("status")
+	class_id, err := strconv.Atoi(c.QueryParam("class_id"))
+
+	if err != nil && class_id != 0 {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("fail converse class_id param"))
+	}
+
+	dataMentee, err := delivery.menteeUsecase.SelectMentee(class_id, category, status)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))

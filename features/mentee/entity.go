@@ -39,7 +39,7 @@ type ResponseCore struct {
 }
 
 type UsecaseInterface interface {
-	SelectMentee() (data []ResponseCore, err error)
+	SelectMentee(class_id int, category, status string) (data []ResponseCore, err error)
 	SelectMenteeById(mentee_id int) (data ResponseCore, err error)
 	InsertMentee(data Core) (row int, err error)
 	UpdateMenteeData(data Core) (row int, err error)
@@ -47,7 +47,7 @@ type UsecaseInterface interface {
 }
 
 type DataInterface interface {
-	FindMentee() (data []ResponseCore, err error)
+	FindMentee(class_id int, category, status string) (data []ResponseCore, err error)
 	FindMenteeById(mentee_id int) (data ResponseCore, err error)
 	CreateMentee(data Core) (row int, err error)
 	UpdateMentee(data Core) (row int, err error)
