@@ -22,7 +22,7 @@ func New(e *echo.Echo, usecase logs.UsecaseInterface) {
 		logUsecase: usecase,
 	}
 	e.POST("/feedback", handler.PostLogs, middlewares.JWTMiddleware())
-	e.GET("/feedback", handler.GetAllFeedback)
+	e.GET("/feedback", handler.GetAllFeedback, middlewares.JWTMiddleware())
 }
 
 func (deliv *Delivery) PostLogs(c echo.Context) error {

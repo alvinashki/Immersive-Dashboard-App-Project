@@ -12,6 +12,7 @@ type LogsResponse struct {
 	CreatedAt   time.Time `json:"created_At" form:"created_at"`
 	Name_User   string    `json:"Name_User" form:"Name_User"`
 	Name_Mentee string    `json:"Name_Mentee" form:"Name_Mentee"`
+	File        string    `json:"file" form:"file"`
 }
 
 func fromCore(dataCore logs.ResponseCore) LogsResponse {
@@ -22,6 +23,7 @@ func fromCore(dataCore logs.ResponseCore) LogsResponse {
 		CreatedAt:   dataCore.CreatedAt,
 		Name_User:   dataCore.Name_User,
 		Name_Mentee: dataCore.Name_Mentee,
+		File:        dataCore.File,
 	}
 }
 
