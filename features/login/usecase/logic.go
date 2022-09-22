@@ -26,7 +26,7 @@ func (usecase *authUsecase) LoginAuthorized(email, password string) (string, str
 		return "email not found", ""
 	}
 
-	token, errToken := middlewares.CreateToken(int(results.ID))
+	token, errToken := middlewares.CreateToken(int(results.ID), results.Role) // coba
 
 	if errToken != nil {
 		return "error to created token", ""

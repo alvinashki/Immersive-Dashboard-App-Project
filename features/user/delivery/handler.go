@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"fmt"
 	"gp3/features/user"
 	"gp3/middlewares"
 	"gp3/utils/helper"
@@ -26,10 +27,12 @@ func New(e *echo.Echo, usecase user.UsecaseInterface) {
 }
 
 func (deliv *Delivery) PostUser(c echo.Context) error {
-	// token := middlewares.ExtractToken(c)
-	// if token == 0 {
-	// 	return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you should be login first !"))
-	// }
+	_, role := middlewares.ExtractToken(c)
+
+	if role != "admin" {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))
+	}
+	fmt.Println(role)
 
 	var dataRequest UserRequest
 	errBind := c.Bind(&dataRequest)
@@ -60,36 +63,36 @@ func (deliv *Delivery) GetAllUser(c echo.Context) error {
 func (deliv *Delivery) PutUser(c echo.Context) error {
 	id := c.Param("id")
 	idConv, errConv := strconv.Atoi(id)
-	idToken := middlewares.ExtractToken(c)
-
-	if idToken != idConv {
-		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))
-	}
+	idToken, role := middlewares.ExtractToken(c) //coba
 
 	if errConv != nil {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("param must be a number"))
 	}
 
-	var dataUpdate UserRequest
-	errBind := c.Bind(&dataUpdate)
-	if errBind != nil {
-		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("error binding data"))
+	if idConv == idToken || role == "admin" {
+		var dataUpdate UserRequest
+		errBind := c.Bind(&dataUpdate)
+		if errBind != nil {
+			return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("error binding data"))
+		}
+
+		row, err := deliv.userUsecase.PutUser(toCore(dataUpdate), idConv)
+
+		if err != nil || row == 0 {
+			return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to update data"))
+		}
 	}
 
-	row, err := deliv.userUsecase.PutUser(toCore(dataUpdate), idConv)
+	return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))
 
-	if err != nil || row == 0 {
-		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to update data"))
-	}
-	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("success update data"))
 }
 
 func (deliv *Delivery) DeleteAkun(c echo.Context) error {
 	id := c.Param("id")
 	idConv, errConv := strconv.Atoi(id)
-	idToken := middlewares.ExtractToken(c)
+	_, role := middlewares.ExtractToken(c)
 
-	if idToken != idConv {
+	if role != "admin" {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))
 	}
 
