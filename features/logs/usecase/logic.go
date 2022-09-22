@@ -20,28 +20,7 @@ func (usecase *logUsecase) CreateData(newLogs logs.Core) (int, error) {
 	return row, err
 }
 
-/*
-func (usecase *logUsecase) GetAllUser() ([]user.ResponseCore, error) {
-	results, err := usecase.logData.SelectAlUser()
-	return results, err
+func (usecase *logUsecase) SelectFeedback(mentee_id int) ([]logs.ResponseCore, error) {
+	dataLogs, err := usecase.logData.FindFeedback(mentee_id)
+	return dataLogs, err
 }
-
-func (usecase *logUsecase) PutUser(newUser user.Core, id int) (int, error) {
-
-	row, err := usecase.logData.UpdateData(newUser, id)
-	return row, err
-}
-
-func (usecase *logUsecase) DeleteAkun(id int) (int, error) {
-	row, err := usecase.logData.DeleteData(id)
-	return row, err
-}
-
-func (usecase *logUsecase) GetUserId(id int) (user.ResponseCore, error) {
-	result, err := usecase.logData.SelectUserId(id)
-	if err != nil {
-		return user.ResponseCore{}, err
-	}
-	return result, nil
-}
-*/

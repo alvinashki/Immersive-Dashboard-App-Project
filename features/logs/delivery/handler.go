@@ -5,6 +5,7 @@ import (
 	"gp3/middlewares"
 	"gp3/utils/helper"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -18,19 +19,18 @@ func New(e *echo.Echo, usecase logs.UsecaseInterface) {
 		logUsecase: usecase,
 	}
 	e.POST("/feedback", handler.PostLogs, middlewares.JWTMiddleware())
-	// e.GET("/users", handler.GetAllUser, middlewares.JWTMiddleware())
-	// e.PUT("/users/:id", handler.PutUser, middlewares.JWTMiddleware())
-	// e.DELETE("/users/:id", handler.DeleteAkun, middlewares.JWTMiddleware())
-	// e.GET("/users/:id", handler.SelectUserId, middlewares.JWTMiddleware())
+	e.GET("/feedback", handler.GetAllFeedback)
 }
 
 func (deliv *Delivery) PostLogs(c echo.Context) error {
+	idToken, _ := middlewares.ExtractToken(c)
 
 	var dataRequest LogsRequest
 	errBind := c.Bind(&dataRequest)
 	if errBind != nil {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("error binding data"))
 	}
+	dataRequest.UserId = uint(idToken)
 
 	// fmt.Println("error =", dataRequest)
 	row, err := deliv.logUsecase.CreateData(toCore(dataRequest))
@@ -41,6 +41,22 @@ func (deliv *Delivery) PostLogs(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("error insert data"))
 	}
 	return c.JSON(http.StatusCreated, helper.SuccessResponseHelper("success insert data"))
+}
+
+func (deliv *Delivery) GetAllFeedback(c echo.Context) error {
+	mentee_id, err := strconv.Atoi(c.QueryParam("mentee_id"))
+
+	if err != nil && mentee_id != 0 {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("fail converse mentee_id param"))
+	}
+
+	dataFeedback, err := deliv.logUsecase.SelectFeedback(mentee_id)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data mentees success", fromCoreList(dataFeedback)))
 }
 
 /*

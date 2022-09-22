@@ -27,48 +27,16 @@ func (repo *logData) InsertData(newLogs logs.Core) (int, error) {
 	return int(tx.RowsAffected), nil
 }
 
-// func (repo *logData) SelectAlUser() ([]user.ResponseCore, error) {
-// 	var alllogData []User
-// 	tx := repo.db.Preload("Division").Find(&alllogData)
+func (repo *logData) FindFeedback(mentee_id int) ([]logs.ResponseCore, error) {
+	var dataLogs []Logs
 
-// 	if tx.Error != nil {
-// 		return nil, tx.Error
-// 	}
+	if mentee_id != 0 {
+		tx := repo.db.Where("mentee_id = ?", mentee_id).Joins("Mentee").Joins("User").Find(&dataLogs)
 
-// 	return toCoreList(alllogData), nil
+		if tx.Error != nil {
+			return []logs.ResponseCore{}, tx.Error
+		}
+	}
+	return toCoreList(dataLogs), nil
 
-// }
-
-// func (repo *logData) UpdateData(data user.Core, id int) (row int, err error) {
-// 	tx := repo.db.Model(&User{}).Where("id = ?", id).Updates(fromCore(data))
-// 	if tx.Error != nil {
-// 		return -1, tx.Error
-// 	}
-// 	if tx.RowsAffected == 0 {
-// 		return 0, errors.New("failed to update data")
-// 	}
-// 	return int(tx.RowsAffected), nil
-// }
-
-// func (repo *logData) DeleteData(id int) (row int, err error) {
-// 	tx := repo.db.Delete(&User{}, id)
-// 	if tx.Error != nil {
-// 		return -1, tx.Error
-// 	}
-// 	if tx.RowsAffected == 0 {
-// 		return 0, errors.New("failed delete akun")
-// 	}
-// 	return int(tx.RowsAffected), nil
-// }
-
-// func (repo *logData) SelectUserId(id int) (user.ResponseCore, error) {
-// 	var logData User
-// 	// logData.ID = uint(id)
-
-// 	tx := repo.db.Preload("Division").First(&logData, id)
-
-// 	if tx.Error != nil {
-// 		return user.ResponseCore{}, tx.Error
-// 	}
-// 	return logData.toCore(), nil
-// }
+}
