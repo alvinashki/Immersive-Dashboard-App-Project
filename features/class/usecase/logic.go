@@ -36,3 +36,9 @@ func (usecase *classUsecase) UpdateClassData(dataClass class.Core) (int, error) 
 	return rowUpdate, errUpdate
 
 }
+
+func (usecase *classUsecase) DeleteClassData(class_id int) (int, error) {
+	rowDelete, errDelete := usecase.classData.DeleteClass(class_id)
+	return rowDelete, errDelete
+
+}
