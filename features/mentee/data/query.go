@@ -57,7 +57,7 @@ func (repo *menteeData) FindMentee(class_id int, category, status string) ([]men
 			return []mentee.ResponseCore{}, tx.Error
 		}
 	} else if class_id != 0 {
-		tx := repo.db.Where("class_id = ?", category).Preload("Class").Find(&dataMentee)
+		tx := repo.db.Where("class_id = ?", class_id).Preload("Class").Find(&dataMentee)
 
 		if tx.Error != nil {
 			return []mentee.ResponseCore{}, tx.Error
