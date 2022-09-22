@@ -67,3 +67,15 @@ func (repo *classData) UpdateClass(dataClass class.Core) (int, error) {
 
 	return int(tx_newData.RowsAffected), nil
 }
+
+func (repo *classData) DeleteClass(class_id int) (int, error) {
+	var dataClass Class
+	tx := repo.db.Delete(&dataClass, class_id)
+
+	if tx.Error != nil {
+		return -1, tx.Error
+	}
+
+	return int(tx.RowsAffected), nil
+
+}
