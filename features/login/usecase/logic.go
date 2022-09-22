@@ -15,7 +15,7 @@ func New(data login.DataInterface) login.UsecaseInterface {
 	}
 }
 
-func (usecase *authUsecase) LoginAuthorized(email, password string) string {
+func (usecase *authUsecase) LoginAuthorized(email, password, role string) string {
 
 	if email == "" || password == "" {
 		return "please input email and password"
@@ -26,7 +26,7 @@ func (usecase *authUsecase) LoginAuthorized(email, password string) string {
 		return "email not found"
 	}
 
-	token, errToken := middlewares.CreateToken(int(results.ID))
+	token, errToken := middlewares.CreateToken(int(results.ID), results.Role) // coba
 
 	if errToken != nil {
 		return "error to created token"
