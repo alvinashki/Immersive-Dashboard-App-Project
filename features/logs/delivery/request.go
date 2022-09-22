@@ -9,6 +9,7 @@ type LogsRequest struct {
 	Status   string `json:"status" form:"status"`
 	UserId   uint   `json:"user_id" form:"user_id"`
 	MenteeId uint   `json:"mentee_id" form:"mentee_id"`
+	File     string `json:"file" form:"file"`
 }
 
 func toCore(dataRequest LogsRequest) logs.Core {
@@ -17,5 +18,6 @@ func toCore(dataRequest LogsRequest) logs.Core {
 		Status:   dataRequest.Status,
 		UserId:   dataRequest.UserId,
 		MenteeId: dataRequest.MenteeId,
+		File:     dataRequest.File,
 	}
 }

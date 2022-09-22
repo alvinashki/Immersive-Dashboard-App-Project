@@ -16,6 +16,7 @@ type Logs struct {
 	User     modelUser.User `gorm:"foreignKey:UserId"`
 	MenteeId uint
 	Mentee   modelMentee.Mentee `gorm:"foreignKey:MenteeId"`
+	File     string             //s3
 }
 
 func fromCore(dataCore logs.Core) Logs {
@@ -24,6 +25,7 @@ func fromCore(dataCore logs.Core) Logs {
 		Status:   dataCore.Status,
 		UserId:   dataCore.UserId,
 		MenteeId: dataCore.MenteeId,
+		File:     dataCore.File, //s3
 	}
 }
 
@@ -35,6 +37,7 @@ func (dataLogs *Logs) toCore() logs.ResponseCore {
 		CreatedAt:   dataLogs.CreatedAt,
 		Name_User:   dataLogs.User.Name,
 		Name_Mentee: dataLogs.Mentee.Name,
+		File:        dataLogs.File,
 	}
 }
 

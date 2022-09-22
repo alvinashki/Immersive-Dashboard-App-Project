@@ -1,11 +1,14 @@
 package delivery
 
 import (
+	"fmt"
+	"gp3/config"
 	"gp3/features/logs"
 	"gp3/middlewares"
 	"gp3/utils/helper"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -31,6 +34,34 @@ func (deliv *Delivery) PostLogs(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("error binding data"))
 	}
 	dataRequest.UserId = uint(idToken)
+
+	//upload file Image
+	imageData, imageInfo, imageErr := c.Request().FormFile("file")
+	if imageErr == http.ErrMissingFile || imageErr != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("Failed to get image"))
+	}
+
+	imageExtension, err_image_extension := helper.CheckFileExtension(imageInfo.Filename, config.ContentImage)
+	if err_image_extension != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("Image extension error"))
+	}
+
+	// check image size
+	err_image_size := helper.CheckFileSize(imageInfo.Size, config.ContentImage)
+	if err_image_size != nil {
+		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("Image size error"))
+	}
+
+	// memberikan nama file
+	imageName := strconv.Itoa(idToken) + "_" + time.Now().Format("2006-01-02 15:04:05") + "." + imageExtension
+
+	image, errUploadImg := helper.UploadFileToS3(config.EventImages, imageName, config.ContentImage, imageData)
+
+	if errUploadImg != nil {
+		fmt.Println(errUploadImg)
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to upload file"))
+	}
+	dataRequest.File = image
 
 	// fmt.Println("error =", dataRequest)
 	row, err := deliv.logUsecase.CreateData(toCore(dataRequest))

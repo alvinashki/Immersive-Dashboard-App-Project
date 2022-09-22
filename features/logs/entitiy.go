@@ -8,6 +8,7 @@ type Core struct {
 	Status   string
 	UserId   uint
 	MenteeId uint
+	File     string //s3
 }
 
 type ResponseCore struct {
@@ -17,6 +18,7 @@ type ResponseCore struct {
 	CreatedAt   time.Time
 	Name_User   string
 	Name_Mentee string
+	File        string //s3
 }
 
 type UsecaseInterface interface {
