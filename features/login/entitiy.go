@@ -8,11 +8,7 @@ type Core struct {
 }
 
 type UsecaseInterface interface {
-<<<<<<< HEAD
-	LoginAuthorized(email, password string, role string) string
-=======
 	LoginAuthorized(email, password string) (string, string)
->>>>>>> 476986a755198c287082c23df981b94e38b8b7b9
 }
 
 type DataInterface interface {

@@ -81,6 +81,8 @@ func (deliv *Delivery) PutUser(c echo.Context) error {
 		if err != nil || row == 0 {
 			return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper("failed to update data"))
 		}
+
+		return c.JSON(http.StatusBadRequest, helper.SuccessResponseHelper("succes update data"))
 	}
 
 	return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("you dont have acces"))

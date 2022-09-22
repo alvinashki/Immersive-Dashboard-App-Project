@@ -30,11 +30,7 @@ func (delivery *Delivery) Auth(c echo.Context) error {
 		return c.JSON(400, helper.FailedResponseHelper("wrong request"))
 	}
 
-<<<<<<< HEAD
-	str := delivery.authUsecase.LoginAuthorized(req.Email, req.Password, req.Role) //coba
-=======
 	str, role := delivery.authUsecase.LoginAuthorized(req.Email, req.Password)
->>>>>>> 476986a755198c287082c23df981b94e38b8b7b9
 	if str == "please input email and password" || str == "email not found" || str == "wrong password" {
 		return c.JSON(400, helper.FailedResponseHelper(str))
 	} else if str == "failed to created token" {
