@@ -6,6 +6,7 @@ import (
 )
 
 type LogsResponse struct {
+	ID          uint      `json:"id" form:"id"`
 	Feedback    string    `json:"Feedback" form:"Feedback"`
 	Status      string    `json:"status" form:"status"`
 	CreatedAt   time.Time `json:"created_At" form:"created_at"`
@@ -15,6 +16,7 @@ type LogsResponse struct {
 
 func fromCore(dataCore logs.ResponseCore) LogsResponse {
 	return LogsResponse{
+		ID:          dataCore.ID,
 		Feedback:    dataCore.Feedback,
 		Status:      dataCore.Status,
 		CreatedAt:   dataCore.CreatedAt,
