@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"gp3/features/class"
+	"gp3/middlewares"
 	"gp3/utils/helper"
 	"net/http"
 
@@ -17,10 +18,10 @@ func New(e *echo.Echo, usecase class.UsecaseInterface) {
 		classUsecase: usecase,
 	}
 
-	e.POST("/class", handler.PostNewClass)
-	e.GET("/class", handler.GetAllClass)
-	e.PUT("/class/:id", handler.UpdateClassData)
-	e.DELETE("/class/:id", handler.DeleteClassData)
+	e.POST("/class", handler.PostNewClass, middlewares.JWTMiddleware())
+	e.GET("/class", handler.GetAllClass, middlewares.JWTMiddleware())
+	e.PUT("/class/:id", handler.UpdateClassData, middlewares.JWTMiddleware())
+	e.DELETE("/class/:id", handler.DeleteClassData, middlewares.JWTMiddleware())
 
 }
 
