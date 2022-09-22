@@ -21,8 +21,10 @@ type ResponseCore struct {
 
 type UsecaseInterface interface {
 	CreateData(data Core) (row int, err error)
+	SelectFeedback(mentee_id int) (data []ResponseCore, err error)
 }
 
 type DataInterface interface {
 	InsertData(data Core) (row int, err error)
+	FindFeedback(mentee_id int) (data []ResponseCore, err error)
 }
