@@ -25,3 +25,8 @@ func (usecase *classUsecase) InsertClass(dataClass class.Core) (int, error) {
 	return rowCreate, errCreate
 
 }
+
+func (usecase *classUsecase) SelectClass() ([]class.Core, error) {
+	dataClass, err := usecase.classData.FindClass()
+	return dataClass, err
+}

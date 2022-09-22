@@ -18,6 +18,7 @@ func New(e *echo.Echo, usecase class.UsecaseInterface) {
 	}
 
 	e.POST("/class", handler.PostNewClass)
+	e.GET("/class", handler.GetAllClass)
 
 }
 
@@ -36,4 +37,14 @@ func (delivery *CLassDelivery) PostNewClass(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("success add new class"))
+}
+
+func (delivery *CLassDelivery) GetAllClass(c echo.Context) error {
+	dataClass, err := delivery.classUsecase.SelectClass()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessDataResponseHelper("get all data class success", FromCoreList(dataClass)))
 }
