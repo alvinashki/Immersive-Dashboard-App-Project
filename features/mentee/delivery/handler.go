@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"gp3/features/mentee"
+	"gp3/middlewares"
 	"gp3/utils/helper"
 	"net/http"
 
@@ -17,11 +18,11 @@ func New(e *echo.Echo, usecase mentee.UsecaseInterface) {
 		menteeUsecase: usecase,
 	}
 
-	e.POST("/mentees", handler.PostNewMentee)
-	e.GET("/mentees", handler.GetAllMentee)
-	e.GET("/mentees/:id", handler.GetMenteeById)
-	e.PUT("/mentees/:id", handler.UpdateMenteeData)
-	e.DELETE("/mentees/:id", handler.DeleteMenteeData)
+	e.POST("/mentees", handler.PostNewMentee, middlewares.JWTMiddleware())
+	e.GET("/mentees", handler.GetAllMentee, middlewares.JWTMiddleware())
+	e.GET("/mentees/:id", handler.GetMenteeById, middlewares.JWTMiddleware())
+	e.PUT("/mentees/:id", handler.UpdateMenteeData, middlewares.JWTMiddleware())
+	e.DELETE("/mentees/:id", handler.DeleteMenteeData, middlewares.JWTMiddleware())
 
 }
 
