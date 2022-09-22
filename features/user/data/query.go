@@ -28,17 +28,16 @@ func (repo *userData) InsertData(newUser user.Core) (int, error) {
 	return int(tx.RowsAffected), nil
 }
 
-func (repo *userData) SelectAlUser() ([]user.Core, error) {
+func (repo *userData) SelectAlUser() ([]user.ResponseCore, error) {
 	var allUserData []User
-	tx := repo.db.Find(&allUserData)
+	tx := repo.db.Preload("Division").Find(&allUserData)
 
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
 
-	userList := toCoreList(allUserData)
+	return toCoreList(allUserData), nil
 
-	return userList, nil
 }
 
 func (repo *userData) UpdateData(data user.Core, id int) (row int, err error) {
@@ -63,13 +62,14 @@ func (repo *userData) DeleteData(id int) (row int, err error) {
 	return int(tx.RowsAffected), nil
 }
 
-func (repo *userData) SelectUserId(id int) (user.Core, error) {
+func (repo *userData) SelectUserId(id int) (user.ResponseCore, error) {
 	var userData User
-	userData.ID = uint(id)
-	tx := repo.db.First(&userData)
+	// userData.ID = uint(id)
+
+	tx := repo.db.Preload("Division").First(&userData, id)
 
 	if tx.Error != nil {
-		return user.Core{}, tx.Error
+		return user.ResponseCore{}, tx.Error
 	}
 	return userData.toCore(), nil
 }

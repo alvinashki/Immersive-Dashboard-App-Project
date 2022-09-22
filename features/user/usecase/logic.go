@@ -24,7 +24,7 @@ func (usecase *userUsecase) CreateData(newUser user.Core) (int, error) {
 	return row, err
 }
 
-func (usecase *userUsecase) GetAllUser() ([]user.Core, error) {
+func (usecase *userUsecase) GetAllUser() ([]user.ResponseCore, error) {
 	results, err := usecase.userData.SelectAlUser()
 	return results, err
 }
@@ -40,10 +40,10 @@ func (usecase *userUsecase) DeleteAkun(id int) (int, error) {
 	return row, err
 }
 
-func (usecase *userUsecase) GetUserId(id int) (user.Core, error) {
+func (usecase *userUsecase) GetUserId(id int) (user.ResponseCore, error) {
 	result, err := usecase.userData.SelectUserId(id)
 	if err != nil {
-		return user.Core{}, err
+		return user.ResponseCore{}, err
 	}
 	return result, nil
 }

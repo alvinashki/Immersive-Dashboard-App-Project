@@ -34,20 +34,20 @@ func fromCore(dataCore user.Core) User {
 	}
 }
 
-func (dataUser *User) toCore() user.Core {
-	return user.Core{
-		ID:         int(dataUser.ID),
-		Name:       dataUser.Name,
-		Email:      dataUser.Email,
-		Password:   dataUser.Password,
-		Role:       dataUser.Role,
-		Status:     dataUser.Status,
-		DivisionId: dataUser.DivisionId,
+func (dataUser *User) toCore() user.ResponseCore {
+	return user.ResponseCore{
+		ID:       int(dataUser.ID),
+		Name:     dataUser.Name,
+		Email:    dataUser.Email,
+		Password: dataUser.Password,
+		Role:     dataUser.Role,
+		Status:   dataUser.Status,
+		Division: dataUser.Division.Division,
 	}
 }
 
-func toCoreList(dataUser []User) []user.Core {
-	var dataCore []user.Core
+func toCoreList(dataUser []User) []user.ResponseCore {
+	var dataCore []user.ResponseCore
 
 	for key := range dataUser {
 		dataCore = append(dataCore, dataUser[key].toCore())
