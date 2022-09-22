@@ -41,3 +41,8 @@ func (usecase *menteeUsecase) UpdateMenteeData(dataMentaa mentee.Core) (int, err
 	rowUpdate, errUpdate := usecase.menteeData.UpdateMentee(dataMentaa)
 	return rowUpdate, errUpdate
 }
+
+func (usecase *menteeUsecase) DeleteMenteeData(mentee_id int) (int, error) {
+	rowDelete, errDelete := usecase.menteeData.DeleteMentee(mentee_id)
+	return rowDelete, errDelete
+}

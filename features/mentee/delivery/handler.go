@@ -21,6 +21,7 @@ func New(e *echo.Echo, usecase mentee.UsecaseInterface) {
 	e.GET("/mentees", handler.GetAllMentee)
 	e.GET("/mentees/:id", handler.GetMenteeById)
 	e.PUT("/mentees/:id", handler.UpdateMenteeData)
+	e.DELETE("/mentees/:id", handler.DeleteMenteeData)
 
 }
 
@@ -86,4 +87,17 @@ func (delivery *MenteeDelivery) UpdateMenteeData(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("update success"))
+}
+
+func (delivery *MenteeDelivery) DeleteMenteeData(c echo.Context) error {
+
+	mentee_id := helper.ParamInt(c)
+
+	row, err := delivery.menteeUsecase.DeleteMenteeData(mentee_id)
+
+	if err != nil || row != 1 {
+		return c.JSON(http.StatusInternalServerError, helper.FailedResponseHelper(err.Error()))
+	}
+
+	return c.JSON(http.StatusOK, helper.SuccessResponseHelper("delete success"))
 }
