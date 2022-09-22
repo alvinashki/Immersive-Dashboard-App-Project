@@ -17,7 +17,7 @@ func New(e *echo.Echo, usecase logs.UsecaseInterface) {
 	handler := &Delivery{
 		logUsecase: usecase,
 	}
-	e.POST("/users", handler.PostLogs, middlewares.JWTMiddleware())
+	e.POST("/feedback", handler.PostLogs, middlewares.JWTMiddleware())
 	// e.GET("/users", handler.GetAllUser, middlewares.JWTMiddleware())
 	// e.PUT("/users/:id", handler.PutUser, middlewares.JWTMiddleware())
 	// e.DELETE("/users/:id", handler.DeleteAkun, middlewares.JWTMiddleware())

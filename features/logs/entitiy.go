@@ -3,16 +3,15 @@ package logs
 import "time"
 
 type Core struct {
-	ID        int
-	Feedback  string
-	Status    string
-	CreatedAt time.Time
-	UserId    int
-	MenteeId  int
+	ID       uint
+	Feedback string
+	Status   string
+	UserId   uint
+	MenteeId uint
 }
 
 type ResponseCore struct {
-	ID          int
+	ID          uint
 	Feedback    string
 	Status      string
 	CreatedAt   time.Time
