@@ -4,10 +4,11 @@ type Core struct {
 	ID       int
 	Email    string
 	Password string
+	Role     string
 }
 
 type UsecaseInterface interface {
-	LoginAuthorized(email, password string) string
+	LoginAuthorized(email, password string) (string, string)
 }
 
 type DataInterface interface {

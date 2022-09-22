@@ -15,23 +15,23 @@ func New(data login.DataInterface) login.UsecaseInterface {
 	}
 }
 
-func (usecase *authUsecase) LoginAuthorized(email, password string) string {
+func (usecase *authUsecase) LoginAuthorized(email, password string) (string, string) {
 
 	if email == "" || password == "" {
-		return "please input email and password"
+		return "please input email and password", ""
 	}
 
 	results, errEmail := usecase.authData.LoginUser(email)
 	if errEmail != nil {
-		return "email not found"
+		return "email not found", ""
 	}
 
 	token, errToken := middlewares.CreateToken(int(results.ID))
 
 	if errToken != nil {
-		return "error to created token"
+		return "error to created token", ""
 	}
 
-	return token
+	return token, results.Role
 
 }

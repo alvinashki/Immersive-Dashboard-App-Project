@@ -10,6 +10,7 @@ type User struct {
 	gorm.Model
 	Email    string `json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
+	Role     string `json:"role" form:"role"`
 }
 
 func toCore(user User) login.Core {
@@ -18,6 +19,7 @@ func toCore(user User) login.Core {
 		ID:       int(user.ID),
 		Email:    user.Email,
 		Password: user.Password,
+		Role:     user.Role,
 	}
 
 	return core
