@@ -35,8 +35,6 @@ func (delivery *MenteeDelivery) PostNewMentee(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, helper.FailedResponseHelper("fail bind data"))
 	}
 
-	menteeRequestData.Status = "Interview"
-
 	row, err := delivery.menteeUsecase.InsertMentee(ToCore(menteeRequestData))
 
 	if err != nil || row != 1 {
